@@ -7,8 +7,8 @@ pipeline {
     }
 
     environment {
-        DOCKERHUB_USERNAME = '1pro'
-        GITHUB_URL = 'https://github.com/k8s-1pro/install.git'
+        DOCKERHUB_USERNAME = 'morn4u'
+        GITHUB_URL = 'https://github.com/morn4u/install.git'
         INSTALL_PATH = 'ground/cicd-server/argo'
     }
 

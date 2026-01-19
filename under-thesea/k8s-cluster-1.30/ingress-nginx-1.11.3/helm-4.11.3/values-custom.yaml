@@ -1,5 +1,4 @@
 controller:
-
   # 커뮤니티용 - kubernetes/ingress-nginx
   image:
     registry: registry.k8s.io
@@ -10,7 +9,7 @@ controller:
   service:
     type: ClusterIP
     externalIPs:
-      - 192.168.56.30
+      - 40.0.0.151
 
   # Nginx 설치시 ingressClass 생성
   ingressClassResource:

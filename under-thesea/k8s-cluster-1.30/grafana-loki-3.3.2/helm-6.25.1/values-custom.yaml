@@ -11,14 +11,14 @@ loki:
       #index:
       #  prefix: index_
       #  period: 24h
-      - from: 2024-04-01      # 내 시스템에 v13버전을 반영 시킬 날짜 - 임의 변경 O
+      - from: 2024-04-01 # 내 시스템에 v13버전을 반영 시킬 날짜 - 임의 변경 O
         # https://grafana.com/docs/loki/v3.3.x/configure/storage/#on-premise-deployment-minio-single-store
-        store: tsdb           # Block DB 방식
-        object_store: s3      # Storage 타입
-        schema: v13           # Loki 버전에 따라 달라짐 - v1~v5: bigtable, v6: boltdb, v7: boltdb-shipper, v8~11: chunks, v13: tsdb
-        index:                # 로그 파일 관리 방식 (Chunk도 포함)
-          prefix: index_      # 다른 Loki 인스턴스와 중복 고려
-          period: 24h         # 하루 단위로 인덱스 파일 생성
+        store: tsdb # Block DB 방식
+        object_store: s3 # Storage 타입
+        schema: v13 # Loki 버전에 따라 달라짐 - v1~v5: bigtable, v6: boltdb, v7: boltdb-shipper, v8~11: chunks, v13: tsdb
+        index: # 로그 파일 관리 방식 (Chunk도 포함)
+          prefix: index_ # 다른 Loki 인스턴스와 중복 고려
+          period: 24h # 하루 단위로 인덱스 파일 생성
         #chunk:
         #  prefix: index_
         #  period: 24h
@@ -31,17 +31,17 @@ loki:
 
   # 컴포넌트간 Ring 구성을 위한 설정
   # Loki 기본 권장 Private IP 대역(10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12, 192.168.0.0/16, 198.19.0.0/16)일 경우에는 설정할 필요 없음
-  extraMemberlistConfig:
-    bind_addr:
-      - ${MY_POD_IP}
+  # extraMemberlistConfig:
+  #   bind_addr:
+  #     - ${MY_POD_IP}
   commonConfig:
-    ring:
-      kvstore:
-        store: memberlist
+    # ring:
+    #   kvstore:
+    #     store: memberlist
 
-  # 데이터 복제 개수 ( 데이터 이중화 시 Pod 4, replication_factor: 3을 권장 )
-  # https://grafana.com/docs/loki/v3.3.x/configure/#ingester
-  # https://grafana.com/docs/loki/v3.3.x/get-started/components/
+    # 데이터 복제 개수 ( 데이터 이중화 시 Pod 4, replication_factor: 3을 권장 )
+    # https://grafana.com/docs/loki/v3.3.x/configure/#ingester
+    # https://grafana.com/docs/loki/v3.3.x/get-started/components/
     replication_factor: 1
 
   # 테넌트(조직)별 로그 데이터 격리 기능
@@ -58,7 +58,6 @@ loki:
     delete_request_store: s3
   limits_config:
     retention_period: 48h
-
 
   # 쿼리 병렬처리 (TSDB에서는 16이 가장 안정적)
   # https://grafana.com/docs/loki/latest/operations/storage/tsdb/
@@ -81,13 +80,13 @@ backend:
   persistence:
     volumeClaimsEnabled: false
   # 컴포넌트간 Ring 구성을 위한 설정
-  extraEnv:
-    - name: MY_POD_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-  extraArgs:
-    - -config.expand-env=true
+  # extraEnv:
+  #   - name: MY_POD_IP
+  #     valueFrom:
+  #       fieldRef:
+  #         fieldPath: status.podIP
+  # extraArgs:
+  #   - -config.expand-env=true
 
 # Read 컴포넌트 - Query frontend, Querier
 read:
@@ -102,13 +101,13 @@ read:
   persistence:
     volumeClaimsEnabled: false
   # 컴포넌트간 Ring 구성을 위한 설정
-  extraEnv:
-    - name: MY_POD_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-  extraArgs:
-    - -config.expand-env=true
+  # extraEnv:
+  #   - name: MY_POD_IP
+  #     valueFrom:
+  #       fieldRef:
+  #         fieldPath: status.podIP
+  # extraArgs:
+  #   - -config.expand-env=true
 
 # Write 컴포넌트 - Ingester, Distributor
 write:
@@ -127,13 +126,13 @@ write:
       matchLabels:
         app.kubernetes.io/name: loki-write-volume
   # 컴포넌트간 Ring 구성을 위한 설정
-  extraEnv:
-    - name: MY_POD_IP
-      valueFrom:
-        fieldRef:
-          fieldPath: status.podIP
-  extraArgs:
-    - -config.expand-env=true
+  # extraEnv:
+  #   - name: MY_POD_IP
+  #     valueFrom:
+  #       fieldRef:
+  #         fieldPath: status.podIP
+  # extraArgs:
+  #   - -config.expand-env=true
 
 # MinIO - Object Storage 저장용도 - TSDB
 minio:

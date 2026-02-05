@@ -103,7 +103,6 @@ grafana:
     ingressClassName: nginx
     hosts:
       - grafana
-      - 40.0.0.151.sslip.io
 
   resources:
     requests:

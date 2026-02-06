@@ -19,11 +19,14 @@ prometheusOperator:
         memory: 48Mi
 
 prometheus:
-  #  service:
-  #    type: NodePort
-  #    nodePort: 30090
+  service:
+    type: NodePort
+    nodePort: 30090
 
   prometheusSpec:
+    # 다른 네임스페이스 설정을 가져오도록 설정
+    podMonitorSelectorNilUsesHelmValues: false
+    serviceMonitorSelectorNilUsesHelmValues: false
     nodeSelector: {}
 
     retention: 1d
@@ -32,11 +35,11 @@ prometheus:
 
     resources:
       requests:
-        cpu: 200m
-        memory: 512Mi
+        cpu: 300m
+        memory: 1Gi
       limits:
-        cpu: 400m
-        memory: 512Mi
+        cpu: 500m
+        memory: 1Gi
 
     storageSpec:
       volumeClaimTemplate:
@@ -107,10 +110,10 @@ grafana:
   resources:
     requests:
       cpu: 100m
-      memory: 256Mi
+      memory: 512Mi
     limits:
       cpu: 200m
-      memory: 256Mi
+      memory: 512Mi
 
   persistence:
     type: pvc
@@ -148,10 +151,10 @@ kube-state-metrics:
     limits:
       cpu: 90m
       memory: 98Mi
-# Node의 라벨 정보를 메트릭에 포함
-#  metricLabelsAllowlist:
-#    - nodes=[*]
-#    - pods=[*]
+  # Node의 라벨 정보를 메트릭에 포함
+  metricLabelsAllowlist:
+    - nodes=[*]
+    - pods=[*]
 
 # 인증서 검증을 무시 하도록 설정
 #kubeApiServer:

@@ -3,7 +3,7 @@ controller:
   image:
     registry: registry.k8s.io
     image: ingress-nginx/controller
-    tag: "v1.11.3"
+    tag: "v4.14.1"
 
   # Service에 externalIPs 속성 추가
   service:
@@ -33,20 +33,12 @@ controller:
       cpu: 100m
       memory: 128Mi
 
-  # Master 노드에 스케줄링 되도록 tolerations 설정
-  nodeSelector:
-    kubernetes.io/hostname: k8s-master
-
-  tolerations:
-    - key: "node-role.kubernetes.io/control-plane"
-      operator: "Exists"
-      effect: "NoSchedule"
-
-# 프로메테우스 메트릭 수집 설정
-#  metrics:
-#    enabled: true
-#    serviceMonitor:
-#      enabled: true
-#      namespace: monitoring
-#      additionalLabels:
-#        release: monitoring
+  # 프로메테우스 메트릭 수집 설정
+  metrics:
+    enabled: true
+    serviceMonitor:
+      enabled:
+        true
+        #      namespace: monitoring
+        #      additionalLabels:
+        #        release: monitoring

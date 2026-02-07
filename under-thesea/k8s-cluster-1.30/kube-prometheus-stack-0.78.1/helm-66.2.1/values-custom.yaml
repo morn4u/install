@@ -101,11 +101,15 @@ grafana:
   testFramework:
     enabled: false
 
-  ingress:
-    enabled: true
-    ingressClassName: nginx
-    hosts:
-      - grafana
+  service:
+    type: NodePort
+    nodePort: 30002
+
+  # ingress:
+  #   enabled: true
+  #   ingressClassName: nginx
+  #   hosts:
+  #     - grafana
 
   resources:
     requests:
